@@ -32,5 +32,8 @@ public class Airport {
       for (Runway runway : runways) {
         runway.update(dt);
       }
+      for (Gate gate : gates) {
+        gate.update(dt);
+      }
     }
   }

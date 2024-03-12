@@ -14,5 +14,7 @@ public class Gate {
 
   }
 
-  
+  public void update(float dt) {
+    
+  }
 }

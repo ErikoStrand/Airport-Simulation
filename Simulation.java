@@ -30,11 +30,11 @@ public class Simulation {
     }
     
     public static void main(String[] args) {
-
+        float time = 0;
         int width = 800;
         int height = 800;
         boolean running = true;
-        long last_time = System.nanoTime();
+        double start = System.nanoTime() /100000000;
 
 
         //creates all airports and adds to array list
@@ -51,24 +51,18 @@ public class Simulation {
         }
 
         while (running) {
-            long time = System.nanoTime();
-            float dt = (float) ((time - last_time) / 1000000);
             //all code;
-
+            time = ((float) (System.nanoTime() / 100000000) - (float) start) / 10;
 
 
 
             for (Airport airport : airports) {
-                airport.update(dt);
             }
-
-
-
-
-
-
-
-            last_time = time;
+            for (Aeroplane aeroplane : aeroplanes) {
+                if (aeroplane.id == 0) {
+                }
+            }
+            System.out.println(time);
         }
     }
 }
