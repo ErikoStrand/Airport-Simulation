@@ -55,7 +55,7 @@ public class Aeroplane {
     switch(state) {
       case "flying":
         distance -= dt * speed * 10;
-        System.out.printf("\nDistance: %s, ID: %s DT: %s", distance, id, dt);
+        System.out.printf("\nFlying\nDistance: %skm, ID: %s DT: %s", (int) distance, id, dt);
         if (distance < 10) {
           Object[] result = route.get(0).isRunwayAvailable(this);
           runway = (Runway) result[0];
@@ -71,7 +71,7 @@ public class Aeroplane {
         break;
 
       case "landing":
-        System.out.printf("\nTime left: %ss ID: %s", landingTime);
+        System.out.printf("\nLanding\nTime left: %.1fs ID: %s", landingTime, id);
         landingTime -= dt;
         if (landingTime <= 0) {
           runway.setOccupied(false);
@@ -87,6 +87,7 @@ public class Aeroplane {
         break;
 
       case "service":
+        System.out.printf("\nService\nTime left: %.1fs ID: %s", serviceTime, id);
         serviceTime -= dt;
       break;
 
