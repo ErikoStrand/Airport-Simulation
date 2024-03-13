@@ -8,7 +8,7 @@ public class Aeroplane {
   boolean watching = false;
   Random rand = new Random();
   int id;
-  int speed = rand.nextInt(5, 8);
+  int speed = rand.nextInt(15, 25);
   String state = "flying";
   float distance;
   float landingTime;
@@ -29,13 +29,13 @@ public class Aeroplane {
   
   //creates a random route for the airplane to follow, then it loops it.
   public void setLandingTime() {
-    landingTime = rand.nextFloat(3, 7);
+    landingTime = rand.nextFloat(2, 4);
   }
   public void setServiceTime() {
-    serviceTime = rand.nextFloat(5, 8);
+    serviceTime = rand.nextFloat(3, 4);
   }
   public void setTakeOffTime() {
-    takeOffTime = rand.nextFloat(6, 9);
+    takeOffTime = rand.nextFloat(4, 6);
   }
   public float distance(Point2D.Float curLoc, Point2D.Float tarLoc) {
     return (float) Point2D.distance(curLoc.x, curLoc.y, tarLoc.x, tarLoc.y);
@@ -68,7 +68,7 @@ public class Aeroplane {
         float angle = (float) Math.atan2(route.get(0).location.y - location.y, route.get(0).location.x - location.x);
 
         // Calculate the distance to move
-        float distanceToMove = dt * speed * 5;
+        float distanceToMove = dt * speed;
         distanceToMove = Math.min(distanceToMove, distance);
 
         // Update the distance remaining
