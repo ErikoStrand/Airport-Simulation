@@ -60,11 +60,14 @@ public class Aeroplane {
   }
 
   public void update(float dt) {
+    if (watching) {
+      System.out.printf("\nPlane number %s is: ", id);
+    }
     switch(state) {
       case "flying":
         distance -= dt * speed * 20;
         if (watching) {
-          System.out.printf("\nFlying - Towards airport nmr %s\nDistance: %skm, ID: %s DT: %s", route.get(0).id, (int) distance, id, dt);
+          System.out.printf("\nFlying - Towards airport nmr %s\nDistance: %skm, ID: %s DT: %s\n", route.get(0).id, (int) distance, id, dt);
         }
         if (distance < 10) {
           Object[] result = route.get(0).isRunwayAvailable(this);
@@ -82,12 +85,13 @@ public class Aeroplane {
 
       case "landing":
         if (watching) {
-          System.out.printf("\nLanding\nTime left: %.1fs ID: %s", landingTime, id);
+          System.out.printf("\nLanding\nTime left: %.1fs", landingTime);
 
         }
         landingTime -= dt;
         if (landingTime <= 0) {
           runway.setOccupied(false);
+          route.get(0).checkRunwayQueue();
           Object[] result = route.get(0).isGateAvailable(this);
           gate = (Gate) result[0];
           if ((boolean) result[1]) {
@@ -101,17 +105,19 @@ public class Aeroplane {
 
       case "service":
         if (watching) {
-          System.out.printf("\nService\nTime left: %.1fs ID: %s", serviceTime, id);
+          System.out.printf("\nService\nTime left: %.1fs", serviceTime);
         }
         serviceTime -= dt;
         if (serviceTime <= 0) {
           gate.setOccupied(false);
+          route.get(0).checkGateQueue();
           Object[] result = route.get(0).isRunwayAvailable(this);
           runway = (Runway) result[0];
           if ((boolean) result[1]) {
             state = "takingOff";
             setTakeOffTime();
           } else {
+
             state = "waitingToTakeOff";
           }
         }
@@ -119,10 +125,11 @@ public class Aeroplane {
 
       case "takingOff":
       if (watching) {
-        System.out.printf("\nTaking Off\nTime left: %.1fs ID: %s", takeOffTime, id);
+        System.out.printf("\nTaking Off\nTime left: %.1fs", takeOffTime);
       }
         takeOffTime -= dt;
         if (takeOffTime <= 0) {
+          runway.setOccupied(false);
           getNextAirportInRoute();
           state = "flying";
         }
@@ -130,7 +137,7 @@ public class Aeroplane {
 
       case "waitingToLand":  //runway
       if (watching) {
-       System.out.printf("\nWaiting for landing slot\nPlace in Queue: %s ID: %s", route.get(0).planesWaitingRunway.indexOf(this), id);
+       System.out.printf("\nWaiting for landing slot\nPlace in Queue: %s/%s", route.get(0).planesWaitingRunway.indexOf(this) + 1,route.get(0).planesWaitingRunway.size());
       }
       
 
@@ -138,14 +145,14 @@ public class Aeroplane {
 
       case "waitingToTakeOff": //runway
       if (watching) {
-        System.out.printf("\nWaiting for take of slot\nPlace in Queue: %s ID: %s", route.get(0).planesWaitingRunway.indexOf(this), id);
+        System.out.printf("\nWaiting for take of slot\nPlace in Queue: %s/%s", route.get(0).planesWaitingRunway.indexOf(this) + 1,route.get(0).planesWaitingRunway.size());
       }
 
       break;
 
       case "waitingToService": //gate
       if (watching) {
-        System.out.printf("\nWaiting for service slot\nPlace in Queue: %s ID: %s", route.get(0).planesWaitingGate.indexOf(this), id);
+        System.out.printf("\nWaiting for service slot\nPlace in Queue: %s/%s", route.get(0).planesWaitingGate.indexOf(this) + 1,route.get(0).planesWaitingGate.size());
       }
 
       break;

@@ -8,7 +8,7 @@ public class Simulation {
     public static ArrayList<Aeroplane> aeroplanes = new ArrayList<>();
 
     public static int noofAirports = 2;
-    public static int noofAeroplanes = 20;
+    public static int noofAeroplanes = 7;
     public static int idOfPlaneToWatch = 4;
 
     static Point2D.Float generateLocation(ArrayList<Airport> airports, int width, int height) {
@@ -57,6 +57,7 @@ public class Simulation {
 
         while (running) {
             //all code;
+
             time = ((float) (System.nanoTime() / 100000000) - (float) start) / 10;
             
             // only calls updates when its gone more then 0.1 seconds.
@@ -65,6 +66,7 @@ public class Simulation {
                 dt = time - lastTime;
                 for (Airport airport : airports) {
                     airport.update();
+
                 }
 
                 for (Aeroplane aeroplane : aeroplanes) {
@@ -72,6 +74,7 @@ public class Simulation {
                 }
             }
             //System.out.println(time);
+            System.out.flush();
             lastTime = time;
         }
     }
