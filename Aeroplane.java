@@ -65,7 +65,7 @@ public class Aeroplane {
     }
     switch(state) {
       case "flying":
-        distance -= dt * speed * 20;
+        distance -= dt * speed;
         if (watching) {
           System.out.printf("\nFlying - Towards airport nmr %s\nDistance: %skm, ID: %s DT: %s\n", route.get(0).id, (int) distance, id, dt);
         }
