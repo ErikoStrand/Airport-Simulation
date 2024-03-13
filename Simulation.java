@@ -72,6 +72,7 @@ public class Simulation {
         int noofAirports = 4;
         int noofAeroplanes = 20;
         int idOfPlaneToWatch = 3;
+        int frameCap = 10;
 
         // Create and set up the window
         JFrame frame = new JFrame("Simulation");
@@ -104,7 +105,7 @@ public class Simulation {
         while (running) {
             //all code;
 
-            time = ((float) (System.nanoTime() / 100000000) - (float) start) / 10;
+            time = ((float) (System.nanoTime() / 100000000) - (float) start) / frameCap; // / x is freamrate cap, so 10 is 10 ticks per seconds 100 is 100 ticks per second, increaseing it decresses speed of a airplanes movies tho.
             
             // only calls updates when its gone more then 0.1 seconds.
             //so i can do countdowns and stuff.
