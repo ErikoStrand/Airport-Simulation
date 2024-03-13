@@ -53,7 +53,6 @@ public class Aeroplane {
     }
   }
   private void getNextAirportInRoute() {
-    location = route.get(0).location;
     route.addLast(route.removeFirst());
     distance = distance(location, route.get(0).location);
 
@@ -65,7 +64,22 @@ public class Aeroplane {
     }
     switch(state) {
       case "flying":
-        distance -= dt * speed;
+        // Calculate the angle towards the next airport
+        float angle = (float) Math.atan2(route.get(0).location.y - location.y, route.get(0).location.x - location.x);
+
+        // Calculate the distance to move
+        float distanceToMove = dt * speed * 5;
+        distanceToMove = Math.min(distanceToMove, distance);
+
+        // Update the distance remaining
+        distance -= distanceToMove;
+
+        // Calculate the new position
+        float newX = (float) (location.x + distanceToMove * Math.cos(angle));
+        float newY = (float) (location.y + distanceToMove * Math.sin(angle));
+
+        // Update the location
+        location.setLocation(newX, newY);
         if (watching) {
           System.out.printf("\nFlying - Towards airport nmr %s\nDistance: %skm, ID: %s DT: %s\n", route.get(0).id, (int) distance, id, dt);
         }
@@ -74,7 +88,6 @@ public class Aeroplane {
           runway = (Runway) result[0];
           if((boolean) result[1]) {
             state = "landing";
-            location = route.get(0).location;
             setLandingTime();
 
           } else {

@@ -1,7 +1,39 @@
 import java.util.ArrayList;
 import java.util.Random;
 import java.awt.geom.Point2D;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
+class SimulationPanel extends JPanel {
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+
+        // Draw airports
+        for (Airport airport : Simulation.airports) {
+            drawAirport(g2d, airport);
+        }
+
+        // Draw aeroplanes
+        for (Aeroplane aeroplane : Simulation.aeroplanes) {
+            drawAeroplane(g2d, aeroplane);
+        }
+    }
+
+    private void drawAirport(Graphics2D g2d, Airport airport) {
+        // Draw a small circle for the airport
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect((int) airport.location.x, (int) airport.location.y, 10, 10);
+    }
+
+    private void drawAeroplane(Graphics2D g2d, Aeroplane aeroplane) {
+        // Draw a small circle for the aeroplane
+        g2d.setColor(Color.GRAY);
+        g2d.fill(new Ellipse2D.Float(aeroplane.location.x, aeroplane.location.y, 5, 5));
+    }
+}
 
 public class Simulation {
     public static ArrayList<Airport> airports = new ArrayList<>();
@@ -39,6 +71,18 @@ public class Simulation {
         boolean running = true;
         double start = System.nanoTime() /100000000;
 
+        // Create and set up the window
+        JFrame frame = new JFrame("Simulation");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(width, height);
+
+        // Add the simulation panel
+        SimulationPanel panel = new SimulationPanel();
+        frame.add(panel);
+
+        // Display the window
+        frame.setVisible(true);
+
 
         //creates all airports and adds to array list
         for (int air = 0; air < noofAirports; air++) {
@@ -74,7 +118,7 @@ public class Simulation {
                 }
             }
             //System.out.println(time);
-            System.out.flush();
+            panel.repaint();
             lastTime = time;
         }
     }
