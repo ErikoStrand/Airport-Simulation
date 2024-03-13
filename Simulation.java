@@ -25,13 +25,13 @@ class SimulationPanel extends JPanel {
     private void drawAirport(Graphics2D g2d, Airport airport) {
         // Draw a small circle for the airport
         g2d.setColor(Color.BLACK);
-        g2d.fillRect((int) airport.location.x, (int) airport.location.y, 10, 10);
+        g2d.fillRect((int) airport.location.x, (int) airport.location.y, 30, 30);
     }
 
     private void drawAeroplane(Graphics2D g2d, Aeroplane aeroplane) {
         // Draw a small circle for the aeroplane
         g2d.setColor(Color.GRAY);
-        g2d.fill(new Ellipse2D.Float(aeroplane.location.x, aeroplane.location.y, 5, 5));
+        g2d.fill(new Ellipse2D.Float(aeroplane.location.x, aeroplane.location.y, 10, 10));
     }
 }
 
@@ -39,22 +39,20 @@ public class Simulation {
     public static ArrayList<Airport> airports = new ArrayList<>();
     public static ArrayList<Aeroplane> aeroplanes = new ArrayList<>();
 
-    public static int noofAirports = 30;
-    public static int noofAeroplanes = 1000;
-    public static int idOfPlaneToWatch = 69;
 
-    static Point2D.Float generateLocation(ArrayList<Airport> airports, int width, int height) {
-        int distanceBetween = 20;
+
+    static Point2D.Float generateLocation(ArrayList<Airport> airports, int width, int height, int edgeOffset, int noofAirports) {
+        int distanceBetween = width / noofAirports;
         Random random = new Random();
-        Point2D.Float location = new Point2D.Float(random.nextFloat() * width, random.nextFloat() * height);
+        Point2D.Float location = new Point2D.Float(random.nextFloat(edgeOffset / 2, width - edgeOffset), random.nextFloat(edgeOffset / 2, height - edgeOffset));
         if (airports.size() <= 0) {
             return location;
         } else {
-            Point2D.Float newLocation = new Point2D.Float(random.nextFloat() * width, random.nextFloat() * height);
+            Point2D.Float newLocation = new Point2D.Float(random.nextFloat(edgeOffset / 2, width - edgeOffset), random.nextFloat(edgeOffset / 2, height - edgeOffset));
 
             for (Airport airport : airports) {
                 if (Point2D.distance(newLocation.x, newLocation.y, airport.location.x, airport.location.y) <= distanceBetween) {
-                    return generateLocation(airports, width, height); // Recursive call
+                    return generateLocation(airports, width, height, edgeOffset, noofAirports); // Recursive call
                 }
             }
 
@@ -68,8 +66,12 @@ public class Simulation {
         float dt = 0;
         int width = 800;
         int height = 800;
+        int edgeOffset = 100;
         boolean running = true;
         double start = System.nanoTime() /100000000;
+        int noofAirports = 4;
+        int noofAeroplanes = 20;
+        int idOfPlaneToWatch = 3;
 
         // Create and set up the window
         JFrame frame = new JFrame("Simulation");
@@ -86,7 +88,7 @@ public class Simulation {
 
         //creates all airports and adds to array list
         for (int air = 0; air < noofAirports; air++) {
-            airports.add(new Airport(6, 13, air, generateLocation(airports, width, height)));
+            airports.add(new Airport(3, 6, air, generateLocation(airports, width, height, edgeOffset, noofAirports)));
         }
         //creates all aeroplanes and adds to array list
         for (int aer = 0; aer < noofAeroplanes; aer++) {
