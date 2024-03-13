@@ -7,8 +7,9 @@ public class Simulation {
     public static ArrayList<Airport> airports = new ArrayList<>();
     public static ArrayList<Aeroplane> aeroplanes = new ArrayList<>();
 
-    public static int noofAirports = 4;
-    public static int noofAeroplanes = 1;
+    public static int noofAirports = 2;
+    public static int noofAeroplanes = 20;
+    public static int idOfPlaneToWatch = 4;
 
     static Point2D.Float generateLocation(ArrayList<Airport> airports, int width, int height) {
         int distanceBetween = 20;
@@ -41,13 +42,15 @@ public class Simulation {
 
         //creates all airports and adds to array list
         for (int air = 0; air < noofAirports; air++) {
-            airports.add(new Airport(4, 8, air, generateLocation(airports, width, height)));
+            airports.add(new Airport(1, 1, air, generateLocation(airports, width, height)));
         }
         //creates all aeroplanes and adds to array list
         for (int aer = 0; aer < noofAeroplanes; aer++) {
-            aeroplanes.add(new Aeroplane(aer, 3, airports));
+            aeroplanes.add(new Aeroplane(aer, 5, airports));
         }
-        
+        //plane to watch.
+        aeroplanes.get(idOfPlaneToWatch).watching = true;
+
         for (Airport airport : airports) {
             System.out.println(airport.location);
         }
@@ -61,12 +64,11 @@ public class Simulation {
             if (time > lastTime) {
                 dt = time - lastTime;
                 for (Airport airport : airports) {
-                    airport.update(dt);
+                    airport.update();
                 }
+
                 for (Aeroplane aeroplane : aeroplanes) {
-                    if (aeroplane.id == 0) {
-                        aeroplane.update(dt);
-                    }
+                    aeroplane.update(dt);
                 }
             }
             //System.out.println(time);

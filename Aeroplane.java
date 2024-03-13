@@ -5,6 +5,7 @@ import java.util.Random;
 import java.awt.geom.Point2D;
 
 public class Aeroplane {
+  boolean watching = false;
   Random rand = new Random();
   int id;
   int speed = rand.nextInt(5, 8);
@@ -12,6 +13,7 @@ public class Aeroplane {
   float distance;
   float landingTime;
   float serviceTime;
+  float takeOffTime;
   Gate gate;
   Runway runway;
 
@@ -27,10 +29,13 @@ public class Aeroplane {
   
   //creates a random route for the airplane to follow, then it loops it.
   public void setLandingTime() {
-    landingTime = rand.nextFloat(6, 15);
+    landingTime = rand.nextFloat(3, 7);
   }
   public void setServiceTime() {
-    serviceTime = rand.nextFloat(5, 30);
+    serviceTime = rand.nextFloat(5, 8);
+  }
+  public void setTakeOffTime() {
+    takeOffTime = rand.nextFloat(6, 9);
   }
   public float distance(Point2D.Float curLoc, Point2D.Float tarLoc) {
     return (float) Point2D.distance(curLoc.x, curLoc.y, tarLoc.x, tarLoc.y);
@@ -47,15 +52,20 @@ public class Aeroplane {
       }
     }
   }
-
-  public void getNextAirportInRoute() {
+  private void getNextAirportInRoute() {
+    location = route.get(0).location;
     route.addLast(route.removeFirst());
+    distance = distance(location, route.get(0).location);
+
   }
+
   public void update(float dt) {
     switch(state) {
       case "flying":
-        distance -= dt * speed * 10;
-        System.out.printf("\nFlying\nDistance: %skm, ID: %s DT: %s", (int) distance, id, dt);
+        distance -= dt * speed * 20;
+        if (watching) {
+          System.out.printf("\nFlying - Towards airport nmr %s\nDistance: %skm, ID: %s DT: %s", route.get(0).id, (int) distance, id, dt);
+        }
         if (distance < 10) {
           Object[] result = route.get(0).isRunwayAvailable(this);
           runway = (Runway) result[0];
@@ -71,7 +81,10 @@ public class Aeroplane {
         break;
 
       case "landing":
-        System.out.printf("\nLanding\nTime left: %.1fs ID: %s", landingTime, id);
+        if (watching) {
+          System.out.printf("\nLanding\nTime left: %.1fs ID: %s", landingTime, id);
+
+        }
         landingTime -= dt;
         if (landingTime <= 0) {
           runway.setOccupied(false);
@@ -87,11 +100,53 @@ public class Aeroplane {
         break;
 
       case "service":
-        System.out.printf("\nService\nTime left: %.1fs ID: %s", serviceTime, id);
+        if (watching) {
+          System.out.printf("\nService\nTime left: %.1fs ID: %s", serviceTime, id);
+        }
         serviceTime -= dt;
+        if (serviceTime <= 0) {
+          gate.setOccupied(false);
+          Object[] result = route.get(0).isRunwayAvailable(this);
+          runway = (Runway) result[0];
+          if ((boolean) result[1]) {
+            state = "takingOff";
+            setTakeOffTime();
+          } else {
+            state = "waitingToTakeOff";
+          }
+        }
       break;
 
-      case "waitingToLand": 
+      case "takingOff":
+      if (watching) {
+        System.out.printf("\nTaking Off\nTime left: %.1fs ID: %s", takeOffTime, id);
+      }
+        takeOffTime -= dt;
+        if (takeOffTime <= 0) {
+          getNextAirportInRoute();
+          state = "flying";
+        }
+      break;
+
+      case "waitingToLand":  //runway
+      if (watching) {
+       System.out.printf("\nWaiting for landing slot\nPlace in Queue: %s ID: %s", route.get(0).planesWaitingRunway.indexOf(this), id);
+      }
+      
+
+      break;
+
+      case "waitingToTakeOff": //runway
+      if (watching) {
+        System.out.printf("\nWaiting for take of slot\nPlace in Queue: %s ID: %s", route.get(0).planesWaitingRunway.indexOf(this), id);
+      }
+
+      break;
+
+      case "waitingToService": //gate
+      if (watching) {
+        System.out.printf("\nWaiting for service slot\nPlace in Queue: %s ID: %s", route.get(0).planesWaitingGate.indexOf(this), id);
+      }
 
       break;
     }
