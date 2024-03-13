@@ -11,7 +11,7 @@ public class Aeroplane {
   String state = "flying";
   float distance;
   float landingTime;
-  float gateTime;
+  float serviceTime;
   Gate gate;
   Runway runway;
 
@@ -30,7 +30,7 @@ public class Aeroplane {
     landingTime = rand.nextFloat(6, 15);
   }
   public void setServiceTime() {
-    gateTime = rand.nextFloat(5, 30);
+    serviceTime = rand.nextFloat(5, 30);
   }
   public float distance(Point2D.Float curLoc, Point2D.Float tarLoc) {
     return (float) Point2D.distance(curLoc.x, curLoc.y, tarLoc.x, tarLoc.y);
@@ -55,7 +55,7 @@ public class Aeroplane {
     switch(state) {
       case "flying":
         distance -= dt * speed * 10;
-        System.out.printf("Distance: %s, ID: %s", distance, id);
+        System.out.printf("\nDistance: %s, ID: %s DT: %s", distance, id, dt);
         if (distance < 10) {
           Object[] result = route.get(0).isRunwayAvailable(this);
           runway = (Runway) result[0];
@@ -71,7 +71,7 @@ public class Aeroplane {
         break;
 
       case "landing":
-        System.out.println("landing");
+        System.out.printf("\nTime left: %ss ID: %s", landingTime);
         landingTime -= dt;
         if (landingTime <= 0) {
           runway.setOccupied(false);
@@ -87,9 +87,9 @@ public class Aeroplane {
         break;
 
       case "service":
-
+        serviceTime -= dt;
       break;
-      
+
       case "waitingToLand": 
 
       break;

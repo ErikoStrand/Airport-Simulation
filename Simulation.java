@@ -64,10 +64,12 @@ public class Simulation {
                     airport.update(dt);
                 }
                 for (Aeroplane aeroplane : aeroplanes) {
-                    aeroplane.update(dt);
+                    if (aeroplane.id == 0) {
+                        aeroplane.update(dt);
+                    }
                 }
             }
-
+            //System.out.println(time);
             lastTime = time;
         }
     }
