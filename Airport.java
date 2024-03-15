@@ -95,8 +95,4 @@ public class Airport {
           planesWaitingGate.add(aeroplane);
           return new Object[]{null, false};
         } 
-
-        public void update() {
-          checkGateQueue();
-        }
   }
