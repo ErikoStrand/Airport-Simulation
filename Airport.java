@@ -3,18 +3,20 @@ import java.awt.geom.Point2D;
 import java.util.LinkedList;
 
 public class Airport {
-    public Point2D.Float location = new Point2D.Float();
-    public int id;
-    public ArrayList<Runway> runways = new ArrayList<>();
-    public ArrayList<Gate> gates = new ArrayList<>();
-    public LinkedList<Aeroplane> planesWaitingRunway = new LinkedList<>();
-    public LinkedList<Aeroplane> planesWaitingGate = new LinkedList<>();
+    Point2D.Float location = new Point2D.Float();
+    int id;
+    ArrayList<Runway> runways = new ArrayList<>();
+    ArrayList<Gate> gates = new ArrayList<>();
+    LinkedList<Aeroplane> planesWaitingRunway = new LinkedList<>();
+    LinkedList<Aeroplane> planesWaitingGate = new LinkedList<>();
+    int size = 20;
 
 
 
     public Airport(int noofRunways, int noofGates, int id, Point2D.Float location) {
       this.id = id;
       this.location = location;
+
       //creates runways
       for (int i = 0; i < noofRunways; i++) {
         runways.add(new Runway(i));
@@ -51,6 +53,7 @@ public class Airport {
 //        }
 //      }
 //    }
+
     public void moveRunwayQueue(Runway runway) {
       if (planesWaitingRunway.size() > 0) {
         runway.setOccupied(true);
@@ -69,9 +72,7 @@ public class Airport {
         planesWaitingGate.removeFirst();
       }
     }
-    
-
-
+  
     public Object[] isRunwayAvailable(Aeroplane aeroplane) {
       for (Runway runway : runways) {
         if (!runway.isOccupied()) {

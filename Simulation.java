@@ -1,39 +1,8 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-
-class SimulationPanel extends JPanel {
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-
-        // Draw airports
-        for (Airport airport : Simulation.airports) {
-            drawAirport(g2d, airport);
-        }
-
-        // Draw aeroplanes
-        for (Aeroplane aeroplane : Simulation.aeroplanes) {
-            drawAeroplane(g2d, aeroplane);
-        }
-    }
-
-    private void drawAirport(Graphics2D g2d, Airport airport) {
-        // Draw a small circle for the airport
-        g2d.setColor(Color.BLACK);
-        g2d.fillRect((int) airport.location.x, (int) airport.location.y, 30, 30);
-    }
-
-    private void drawAeroplane(Graphics2D g2d, Aeroplane aeroplane) {
-        // Draw a small circle for the aeroplane
-        g2d.setColor(Color.GRAY);
-        g2d.fill(new Ellipse2D.Float(aeroplane.location.x, aeroplane.location.y, 10, 10));
-    }
-}
 
 public class Simulation {
     public static ArrayList<Airport> airports = new ArrayList<>();
@@ -59,7 +28,12 @@ public class Simulation {
             return newLocation; // Return newLocation if it doesn't violate the condition
         }
     }
-    
+
+    static Color generateUniqueColor(int maxInt, int currentInt) {
+        float hue = (float) currentInt / maxInt;
+        return Color.getHSBColor(hue, 1f, 1f);
+    }
+
     public static void main(String[] args) {
         float time = 0;
         float lastTime = 0;
@@ -69,13 +43,13 @@ public class Simulation {
         int edgeOffset = 100;
         boolean running = true;
         double start = System.nanoTime() /100000000;
-        int noofAirports = 2;
-        int noofAeroplanes = 20;
+        int noofAirports = 5;
+        int noofAeroplanes = 30;
         int idOfPlaneToWatch = 3;
         int frameCap = 10;
 
         // Create and set up the window
-        JFrame frame = new JFrame("Simulation");
+        JFrame frame = new JFrame("Airport Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);
 
@@ -86,14 +60,13 @@ public class Simulation {
         // Display the window
         frame.setVisible(true);
 
-
         //creates all airports and adds to array list
         for (int air = 0; air < noofAirports; air++) {
-            airports.add(new Airport(1, 2, air, generateLocation(airports, width, height, edgeOffset, noofAirports)));
+            airports.add(new Airport(3, 2, air, generateLocation(airports, width, height, edgeOffset, noofAirports)));
         }
         //creates all aeroplanes and adds to array list
         for (int aer = 0; aer < noofAeroplanes; aer++) {
-            aeroplanes.add(new Aeroplane(aer, 15, airports));
+            aeroplanes.add(new Aeroplane(aer, noofAirports - 2, airports, generateUniqueColor(noofAeroplanes, aer)));
         }
         //plane to watch.
         aeroplanes.get(idOfPlaneToWatch).watching = true;

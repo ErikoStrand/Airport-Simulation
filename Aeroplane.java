@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 
 public class Aeroplane {
@@ -16,13 +17,16 @@ public class Aeroplane {
   float takeOffTime;
   Gate gate;
   Runway runway;
+  Color color;
+  int size = 10;
 
   Point2D.Float location = new Point2D.Float(rand.nextFloat(800), rand.nextFloat(800)); //creates random location.
   //linked list because micke said so, also should be able to check if i can land etc, 
   //call all the functuions from here: like route.get(0).isrunwayavailbiel.
   LinkedList<Airport> route = new LinkedList<>();
-  public Aeroplane(int id, int routeLenght, ArrayList<Airport> airports) {
+  public Aeroplane(int id, int routeLenght, ArrayList<Airport> airports, Color color) {
     this.id = id;
+    this.color = color;
     generateRoute(routeLenght, airports);
     this.distance = distance(location, route.get(0).location);
   }
