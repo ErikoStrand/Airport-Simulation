@@ -104,7 +104,7 @@ public class Aeroplane {
         landingTime -= dt;
         if (landingTime <= 0) {
           runway.setOccupied(false);
-          route.get(0).checkRunwayQueue();
+          route.get(0).moveRunwayQueue(runway);
           Object[] result = route.get(0).isGateAvailable(this);
           gate = (Gate) result[0];
           if ((boolean) result[1]) {
@@ -123,7 +123,7 @@ public class Aeroplane {
         serviceTime -= dt;
         if (serviceTime <= 0) {
           gate.setOccupied(false);
-          route.get(0).checkGateQueue();
+          route.get(0).moveGateQueue(gate);
           Object[] result = route.get(0).isRunwayAvailable(this);
           runway = (Runway) result[0];
           if ((boolean) result[1]) {
@@ -143,6 +143,7 @@ public class Aeroplane {
         takeOffTime -= dt;
         if (takeOffTime <= 0) {
           runway.setOccupied(false);
+          route.get(0).moveRunwayQueue(runway);
           getNextAirportInRoute();
           state = "flying";
         }

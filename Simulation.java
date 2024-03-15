@@ -69,7 +69,7 @@ public class Simulation {
         int edgeOffset = 100;
         boolean running = true;
         double start = System.nanoTime() /100000000;
-        int noofAirports = 4;
+        int noofAirports = 2;
         int noofAeroplanes = 20;
         int idOfPlaneToWatch = 3;
         int frameCap = 10;
@@ -89,7 +89,7 @@ public class Simulation {
 
         //creates all airports and adds to array list
         for (int air = 0; air < noofAirports; air++) {
-            airports.add(new Airport(3, 6, air, generateLocation(airports, width, height, edgeOffset, noofAirports)));
+            airports.add(new Airport(1, 2, air, generateLocation(airports, width, height, edgeOffset, noofAirports)));
         }
         //creates all aeroplanes and adds to array list
         for (int aer = 0; aer < noofAeroplanes; aer++) {
@@ -111,11 +111,6 @@ public class Simulation {
             //so i can do countdowns and stuff.
             if (time > lastTime) {
                 dt = time - lastTime;
-                for (Airport airport : airports) {
-                    airport.update();
-
-                }
-
                 for (Aeroplane aeroplane : aeroplanes) {
                     aeroplane.update(dt);
                 }

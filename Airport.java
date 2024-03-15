@@ -24,32 +24,53 @@ public class Airport {
         gates.add(new Gate(i));
       }
     }
-    public void checkRunwayQueue() {
-      for (Runway runway : runways) {
-        if (!runway.isOccupied()) {
-          if (planesWaitingRunway.size() > 0) {
-            runway.setOccupied(true);
-            planesWaitingRunway.getFirst().runway = runway;
-            if (planesWaitingRunway.getFirst().state == "waitingToLand") {planesWaitingRunway.getFirst().state = "landing"; planesWaitingRunway.getFirst().setLandingTime();}
-            if (planesWaitingRunway.getFirst().state == "waitingToTakeOff") {planesWaitingRunway.getFirst().state = "takingOff"; planesWaitingRunway.getFirst().setTakeOffTime();}
-            planesWaitingRunway.removeFirst();
-          }
-        }
+
+//    public void checkRunwayQueue() {
+//      for (Runway runway : runways) {
+//        if (!runway.isOccupied()) {
+//          if (planesWaitingRunway.size() > 0) {
+//            runway.setOccupied(true);
+//            planesWaitingRunway.getFirst().runway = runway;
+//            if (planesWaitingRunway.getFirst().state == "waitingToLand") {planesWaitingRunway.getFirst().state = "landing"; planesWaitingRunway.getFirst().setLandingTime();}
+//            if (planesWaitingRunway.getFirst().state == "waitingToTakeOff") {planesWaitingRunway.getFirst().state = "takingOff"; planesWaitingRunway.getFirst().setTakeOffTime();}
+//            planesWaitingRunway.removeFirst();
+//          }
+//        }
+//      }
+//    }
+
+//    public void checkGateQueue() {
+//      for (Gate gate : gates) {
+//        if (!gate.isOccupied()) {
+//          if (planesWaitingGate.size() > 0) {
+//            gate.setOccupied(true);
+//            planesWaitingGate.getFirst().gate = gate;
+//            if (planesWaitingGate.getFirst().state == "waitingToService") {planesWaitingGate.getFirst().state = "service"; planesWaitingGate.getFirst().setServiceTime();}
+//            planesWaitingGate.removeFirst();
+//          }
+//        }
+//      }
+//    }
+    public void moveRunwayQueue(Runway runway) {
+      if (planesWaitingRunway.size() > 0) {
+        runway.setOccupied(true);
+        planesWaitingRunway.getFirst().runway = runway;
+        if (planesWaitingRunway.getFirst().state == "waitingToLand") {planesWaitingRunway.getFirst().state = "landing"; planesWaitingRunway.getFirst().setLandingTime();}
+        if (planesWaitingRunway.getFirst().state == "waitingToTakeOff") {planesWaitingRunway.getFirst().state = "takingOff"; planesWaitingRunway.getFirst().setTakeOffTime();}
+        planesWaitingRunway.removeFirst();
       }
     }
 
-    public void checkGateQueue() {
-      for (Gate gate : gates) {
-        if (!gate.isOccupied()) {
-          if (planesWaitingGate.size() > 0) {
-            gate.setOccupied(true);
-            planesWaitingGate.getFirst().gate = gate;
-            if (planesWaitingGate.getFirst().state == "waitingToService") {planesWaitingGate.getFirst().state = "service"; planesWaitingGate.getFirst().setServiceTime();}
-            planesWaitingGate.removeFirst();
-          }
-        }
+    public void moveGateQueue(Gate gate) {
+      if (planesWaitingGate.size() > 0) {
+        gate.setOccupied(true);
+        planesWaitingGate.getFirst().gate = gate;
+        if (planesWaitingGate.getFirst().state == "waitingToService") {planesWaitingGate.getFirst().state = "service"; planesWaitingGate.getFirst().setServiceTime();}
+        planesWaitingGate.removeFirst();
       }
     }
+    
+
 
     public Object[] isRunwayAvailable(Aeroplane aeroplane) {
       for (Runway runway : runways) {
@@ -76,7 +97,6 @@ public class Airport {
         } 
 
         public void update() {
-          checkRunwayQueue();
           checkGateQueue();
         }
   }
