@@ -19,6 +19,7 @@ public class Aeroplane {
   Runway runway;
   Color color;
   int size = 10;
+  Airport currentAirport;
 
 
   Point2D.Float location = new Point2D.Float(rand.nextFloat(800), rand.nextFloat(800)); //creates random location.
@@ -75,7 +76,7 @@ public class Aeroplane {
   }
 
   public void update(float dt) {
-    Airport currentAirport = route.get(0);
+    currentAirport = route.get(0);
     switch(state) {
       case "flying":
         // Calculate the angle towards the next airport

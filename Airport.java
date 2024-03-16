@@ -38,7 +38,18 @@ public class Airport {
         gates.add(new Gate(i));
       }
     }
-
+    public int getNoofAeroplanes() {
+      int amt = 0;
+      amt += planesWaitingGate.size();
+      amt += planesWaitingRunway.size();
+      for (Runway runway : runways) {
+        if (runway.isOccupied()) {amt++;}
+      }
+      for (Gate gate : gates) {
+        if (gate.isOccupied()) {amt++;}
+      }
+      return amt;
+    }
 //    public void checkRunwayQueue() {
 //      for (Runway runway : runways) {
 //        if (!runway.isOccupied()) {
