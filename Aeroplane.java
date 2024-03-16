@@ -20,6 +20,7 @@ public class Aeroplane {
   Color color;
   int size = 10;
 
+
   Point2D.Float location = new Point2D.Float(rand.nextFloat(800), rand.nextFloat(800)); //creates random location.
   //linked list because micke said so, also should be able to check if i can land etc, 
   //call all the functuions from here: like route.get(0).isrunwayavailbiel.
@@ -74,7 +75,7 @@ public class Aeroplane {
   }
 
   public void update(float dt) {
-
+    Airport currentAirport = route.get(0);
     switch(state) {
       case "flying":
         // Calculate the angle towards the next airport
@@ -112,6 +113,7 @@ public class Aeroplane {
 
       case "landing":
         landingTime -= dt;
+        location = new Point2D.Float(currentAirport.runwayLocation.x - size/1.9f, currentAirport.runwayLocation.y - size);
         if (landingTime <= 0) {
           landingTime = 0;
           runway.setOccupied(false);
@@ -128,8 +130,8 @@ public class Aeroplane {
         break;
 
       case "service":
-
         serviceTime -= dt;
+        location = new Point2D.Float(currentAirport.gateLocation.x - size/1.9f, currentAirport.gateLocation.y);
         if (serviceTime <= 0) {
           serviceTime = 0;
           gate.setOccupied(false);
@@ -147,8 +149,9 @@ public class Aeroplane {
       break;
 
       case "takingOff":
-
+        location = new Point2D.Float(currentAirport.runwayLocation.x - size/1.9f, currentAirport.runwayLocation.y - size);
         takeOffTime -= dt;
+        
         if (takeOffTime <= 0) {
           takeOffTime = 0;
           runway.setOccupied(false);
@@ -159,15 +162,18 @@ public class Aeroplane {
       break;
 
       case "waitingToLand":  //runway
+        location = new Point2D.Float(currentAirport.runwayQueueLocation.x - size, currentAirport.runwayQueueLocation.y - size/1.9f);
 
       break;
 
       case "waitingToTakeOff": //runway
+        location = new Point2D.Float(currentAirport.runwayQueueLocation.x - size, currentAirport.runwayQueueLocation.y - size/1.9f);
 
 
       break;
 
       case "waitingToService": //gate
+        location = new Point2D.Float(currentAirport.gateQueueLocation.x + size/1.9f, currentAirport.gateQueueLocation.y - size/1.9f);
 
 
       break;
