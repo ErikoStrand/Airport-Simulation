@@ -55,9 +55,9 @@ class SimulationPanel extends JPanel {
         + "</b></html>";
         Simulation.infoLabel.setText(infoText);
         repaint();
-        g2d.setColor(Color.BLACK);
-        g2d.setStroke(new BasicStroke(3.0f));
-        g2d.draw(new Ellipse2D.Float(selectedAeroplane.location.x - 1.5f, selectedAeroplane.location.y - 1.5f, selectedAeroplane.size + 3, selectedAeroplane.size + 3));
+        g2d.setColor(new Color(230, 230, 230));
+        g2d.setStroke(new BasicStroke(2.5f));
+        g2d.draw(new Ellipse2D.Float(selectedAeroplane.location.x - 2f, selectedAeroplane.location.y - 2f, selectedAeroplane.size + 4, selectedAeroplane.size + 4));
       }
       }
 

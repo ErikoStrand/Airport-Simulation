@@ -113,7 +113,7 @@ public class Aeroplane {
 
       case "landing":
         landingTime -= dt;
-        location = new Point2D.Float(currentAirport.runwayLocation.x - size/1.9f, currentAirport.runwayLocation.y - size);
+        location = new Point2D.Float(currentAirport.runwayLocation.x - size/1.9f, currentAirport.runwayLocation.y - size - (size * runway.id));
         if (landingTime <= 0) {
           landingTime = 0;
           runway.setOccupied(false);
@@ -131,7 +131,7 @@ public class Aeroplane {
 
       case "service":
         serviceTime -= dt;
-        location = new Point2D.Float(currentAirport.gateLocation.x - size/1.9f, currentAirport.gateLocation.y);
+        location = new Point2D.Float(currentAirport.gateLocation.x - size/1.9f, currentAirport.gateLocation.y + (size * gate.id));
         if (serviceTime <= 0) {
           serviceTime = 0;
           gate.setOccupied(false);
@@ -149,8 +149,8 @@ public class Aeroplane {
       break;
 
       case "takingOff":
-        location = new Point2D.Float(currentAirport.runwayLocation.x - size/1.9f, currentAirport.runwayLocation.y - size);
-        takeOffTime -= dt;
+      location = new Point2D.Float(currentAirport.runwayLocation.x - size/1.9f, currentAirport.runwayLocation.y - size - (size * runway.id));
+      takeOffTime -= dt;
         
         if (takeOffTime <= 0) {
           takeOffTime = 0;
@@ -162,18 +162,18 @@ public class Aeroplane {
       break;
 
       case "waitingToLand":  //runway
-        location = new Point2D.Float(currentAirport.runwayQueueLocation.x - size, currentAirport.runwayQueueLocation.y - size/1.9f);
+        location = new Point2D.Float(currentAirport.runwayQueueLocation.x - size, currentAirport.runwayQueueLocation.y - size/2 + (size * currentAirport.planesWaitingRunway.indexOf(this)));
 
       break;
 
       case "waitingToTakeOff": //runway
-        location = new Point2D.Float(currentAirport.runwayQueueLocation.x - size, currentAirport.runwayQueueLocation.y - size/1.9f);
+        location = new Point2D.Float(currentAirport.runwayQueueLocation.x - size, currentAirport.runwayQueueLocation.y - size/2 + (size * currentAirport.planesWaitingRunway.indexOf(this)));
 
 
       break;
 
       case "waitingToService": //gate
-        location = new Point2D.Float(currentAirport.gateQueueLocation.x + size/1.9f, currentAirport.gateQueueLocation.y - size/1.9f);
+        location = new Point2D.Float(currentAirport.gateQueueLocation.x, currentAirport.gateQueueLocation.y - size/2 - (size * currentAirport.planesWaitingGate.indexOf(this)));
 
 
       break;

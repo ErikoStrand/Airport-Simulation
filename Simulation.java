@@ -4,12 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class Simulation {
     public static ArrayList<Airport> airports = new ArrayList<>();
     public static ArrayList<Aeroplane> aeroplanes = new ArrayList<>();
     public static JLabel infoLabel = new JLabel("Selected Plane: None (click one)");
-
 
     static Point2D.Float generateLocation(ArrayList<Airport> airports, int width, int height, int edgeOffset, int noofAirports) {
         int distanceBetween = width / noofAirports;
@@ -44,8 +44,8 @@ public class Simulation {
         int edgeOffset = 100;
         boolean running = true;
         double start = System.nanoTime() /100000000;
-        int noofAirports = 2;
-        int noofAeroplanes = 30;
+        int noofAirports = 5;
+        int noofAeroplanes = 40;
         int frameCap = 10;
 
         // Create and set up the window
@@ -53,17 +53,21 @@ public class Simulation {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height + 50);
 
+        //setup info label
+        infoLabel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
         // Add the simulation panel
         SimulationPanel panel = new SimulationPanel();
+        panel.setBackground(new Color(40, 40, 40));
         frame.add(panel, BorderLayout.CENTER);
         frame.add(infoLabel, BorderLayout.SOUTH);
-
+        
         // Display the window
         frame.setVisible(true);
 
         //creates all airports and adds to array list
         for (int air = 0; air < noofAirports; air++) {
-            airports.add(new Airport(3, 2, air, generateLocation(airports, width, height, edgeOffset, noofAirports)));
+            airports.add(new Airport(2, 3, air, generateLocation(airports, width, height, edgeOffset, noofAirports)));
         }
         //creates all aeroplanes and adds to array list
         for (int aer = 0; aer < noofAeroplanes; aer++) {
