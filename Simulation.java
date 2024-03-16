@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import javax.swing.*;
@@ -7,7 +8,7 @@ import javax.swing.*;
 public class Simulation {
     public static ArrayList<Airport> airports = new ArrayList<>();
     public static ArrayList<Aeroplane> aeroplanes = new ArrayList<>();
-
+    public static JLabel infoLabel = new JLabel("Selected Plane: None (click one)");
 
 
     static Point2D.Float generateLocation(ArrayList<Airport> airports, int width, int height, int edgeOffset, int noofAirports) {
@@ -43,19 +44,19 @@ public class Simulation {
         int edgeOffset = 100;
         boolean running = true;
         double start = System.nanoTime() /100000000;
-        int noofAirports = 5;
+        int noofAirports = 2;
         int noofAeroplanes = 30;
-        int idOfPlaneToWatch = 3;
         int frameCap = 10;
 
         // Create and set up the window
         JFrame frame = new JFrame("Airport Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(width, height);
+        frame.setSize(width, height + 50);
 
         // Add the simulation panel
         SimulationPanel panel = new SimulationPanel();
-        frame.add(panel);
+        frame.add(panel, BorderLayout.CENTER);
+        frame.add(infoLabel, BorderLayout.SOUTH);
 
         // Display the window
         frame.setVisible(true);
@@ -68,8 +69,6 @@ public class Simulation {
         for (int aer = 0; aer < noofAeroplanes; aer++) {
             aeroplanes.add(new Aeroplane(aer, noofAirports - 2, airports, generateUniqueColor(noofAeroplanes, aer)));
         }
-        //plane to watch.
-        aeroplanes.get(idOfPlaneToWatch).watching = true;
 
         for (Airport airport : airports) {
             System.out.println(airport.location);

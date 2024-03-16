@@ -18,15 +18,14 @@ class SimulationPanel extends JPanel {
                 for (Aeroplane aeroplane : Simulation.aeroplanes) {
                     Ellipse2D.Float aeroplaneShape = new Ellipse2D.Float(
                         aeroplane.location.x, aeroplane.location.y, aeroplane.size * 2, aeroplane.size * 2);
-                    if (aeroplaneShape.contains(e.getPoint())) {
-                        // Select this aeroplane and repaint the panel
-                        selectedAeroplane = aeroplane;
-                        repaint();
-                        return;
-                    }
+                        if (aeroplaneShape.contains(e.getPoint())) {
+                          selectedAeroplane = aeroplane;
+                          return;
+                      }
                 }
                 // If no aeroplane was clicked, clear the selection
                 selectedAeroplane = null;
+                Simulation.infoLabel.setText("Selected Plane: None (click one)"); // Clear the label
                 repaint();
             }
         });
@@ -47,13 +46,20 @@ class SimulationPanel extends JPanel {
           drawAeroplane(g2d, aeroplane);
       }
 
-              // Draw the ID label for the selected aeroplane
-              if (selectedAeroplane != null) {
-                g2d.setColor(Color.BLACK);
-                g2d.drawString(String.valueOf(selectedAeroplane.id),
-                selectedAeroplane.location.x + selectedAeroplane.size, selectedAeroplane.location.y + selectedAeroplane.size);
-            }
-        }
+      // draw a highlight so you know which plane is selected.
+      if (selectedAeroplane != null) {
+        String infoText = "<html> Selected Plane <b>" + selectedAeroplane.id 
+        + "<br>State: <b>" + selectedAeroplane.state 
+        + "<br>" + selectedAeroplane.getTimeRemaining()
+        + "<br>Distance Left: <b>" + (int) selectedAeroplane.distance + "km"
+        + "</b></html>";
+        Simulation.infoLabel.setText(infoText);
+        repaint();
+        g2d.setColor(Color.BLACK);
+        g2d.setStroke(new BasicStroke(3.0f));
+        g2d.draw(new Ellipse2D.Float(selectedAeroplane.location.x - 1.5f, selectedAeroplane.location.y - 1.5f, selectedAeroplane.size + 3, selectedAeroplane.size + 3));
+      }
+      }
 
   private void drawAirport(Graphics2D g2d, Airport airport) {
       // Draw a small circle for the airport
