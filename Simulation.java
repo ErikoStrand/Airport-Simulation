@@ -44,7 +44,7 @@ public class Simulation {
         float dt = 0;
         int width = 800;
         int height = 800;
-        int edgeOffset = 100;
+        int edgeOffset = 50;
         boolean running = true;
         double start = System.nanoTime() /10000000;
         int noofAirports = 10;
@@ -96,7 +96,6 @@ public class Simulation {
             //so i can do countdowns and stuff.
             if (time > lastTime) {
                 dt = time - lastTime;
-            System.out.printf("\ntime %s, dt %s", time, dt);
                 for (Aeroplane aeroplane : aeroplanes) {
                     aeroplane.update(dt);
 
