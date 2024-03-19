@@ -96,7 +96,7 @@ public class Simulation {
             //so i can do countdowns and stuff.
             if (time > lastTime) {
                 dt = time - lastTime;
-            //System.out.printf("\ntime %s, dt %s", time, dt);
+            System.out.printf("\ntime %s, dt %s", time, dt);
                 for (Aeroplane aeroplane : aeroplanes) {
                     aeroplane.update(dt);
 

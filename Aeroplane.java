@@ -42,7 +42,7 @@ public class Aeroplane {
       String queue = String.format("Queue: %s/%s", route.get(0).planesWaitingGate.indexOf(this) + 1, route.get(0).planesWaitingGate.size());
       return queue;
     }
-    String time = String.format("Time Left: %.1f", Math.max(Math.max(landingTime, flightTime), Math.max(serviceTime, takeOffTime))) + "s";
+    String time = String.format("Time Left: %.1f", Math.max(Math.max(landingTime, flightTime), Math.max(serviceTime, takeOffTime)) / 10) + "s";
     return time;
   }
   public void setLandingTime() {
