@@ -88,10 +88,6 @@ public class Simulation {
             aeroplanes.add(new Aeroplane(aer, noofAirports - 2, airports, generateUniqueColor(noofAeroplanes, aer)));
         }
 
-        for (Airport airport : airports) {
-            System.out.println(airport.location);
-        }
-
         while (running) {
             //all code;
 
