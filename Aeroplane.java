@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 public class Aeroplane {
   Random rand = new Random();
   int id;
-  int speed = rand.nextInt(15, 25);
+  int speed = rand.nextInt(3, 6);
   String state = "flying";
   float distance;
   float landingTime;
@@ -46,13 +46,13 @@ public class Aeroplane {
     return time;
   }
   public void setLandingTime() {
-    landingTime = rand.nextFloat(2, 4);
+    landingTime = rand.nextFloat(15, 20);
   }
   public void setServiceTime() {
-    serviceTime = rand.nextFloat(3, 4);
+    serviceTime = rand.nextFloat(23, 35);
   }
   public void setTakeOffTime() {
-    takeOffTime = rand.nextFloat(4, 6);
+    takeOffTime = rand.nextFloat(14, 23);
   }
   public float distance(Point2D.Float curLoc, Point2D.Float tarLoc) {
     return (float) Point2D.distance(curLoc.x, curLoc.y, tarLoc.x, tarLoc.y);

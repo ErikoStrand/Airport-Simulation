@@ -46,10 +46,9 @@ public class Simulation {
         int height = 800;
         int edgeOffset = 100;
         boolean running = true;
-        double start = System.nanoTime() /100000000;
+        double start = System.nanoTime() /10000000;
         int noofAirports = 10;
         int noofAeroplanes = 100;
-        int frameCap = 10;
 
         // Create and set up the window
         JFrame frame = new JFrame("Airport Simulation");
@@ -91,14 +90,16 @@ public class Simulation {
         while (running) {
             //all code;
 
-            time = ((float) (System.nanoTime() / 100000000) - (float) start) / frameCap; // / x is freamrate cap, so 10 is 10 ticks per seconds 100 is 100 ticks per second, increaseing it decresses speed of a airplanes movies tho.
+            time = ((float) (System.nanoTime() / 10000000) - (float) start) / 10;
             
             // only calls updates when its gone more then 0.1 seconds.
             //so i can do countdowns and stuff.
             if (time > lastTime) {
                 dt = time - lastTime;
+            //System.out.printf("\ntime %s, dt %s", time, dt);
                 for (Aeroplane aeroplane : aeroplanes) {
                     aeroplane.update(dt);
+
                 }
             }
             //System.out.println(time);
