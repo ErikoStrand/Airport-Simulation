@@ -80,7 +80,7 @@ public class Simulation {
 
         //creates all airports and adds to array list
         for (int air = 0; air < noofAirports; air++) {
-            airports.add(new Airport(1, 1, air, generateLocation(airports, width, height, edgeOffset, noofAirports)));
+            airports.add(new Airport(2, 2, air, generateLocation(airports, width, height, edgeOffset, noofAirports)));
         }
         //creates all aeroplanes and adds to array list
         for (int aer = 0; aer < noofAeroplanes; aer++) {
