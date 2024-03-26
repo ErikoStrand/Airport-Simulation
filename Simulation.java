@@ -47,7 +47,7 @@ public class Simulation {
         int edgeOffset = 50;
         boolean running = true;
         double start = System.nanoTime() /10000000;
-        int noofAirports = 2;
+        int noofAirports = 10;
         int noofAeroplanes = 100;
 
         // Create and set up the window
