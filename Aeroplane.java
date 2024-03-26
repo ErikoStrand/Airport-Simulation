@@ -20,6 +20,8 @@ public class Aeroplane {
   Color color;
   int size = 10;
   Airport currentAirport;
+  float circleAngle = 0;
+  int circleRadius = rand.nextInt(20, 30);
 
 
   Point2D.Float location = new Point2D.Float(rand.nextFloat(800), rand.nextFloat(800)); //creates random location.
@@ -163,8 +165,8 @@ public class Aeroplane {
       break;
 
       case "waitingToLand":  //runway
-        location = new Point2D.Float(currentAirport.runwayQueueLocation.x - size, currentAirport.runwayQueueLocation.y - size/2 + (size * currentAirport.planesWaitingRunway.indexOf(this)));
-
+        circleAngle += dt * speed * 2;
+        location = new Point2D.Float((float)(currentAirport.locationCenter.x + circleRadius * Math.cos(circleAngle * Math.PI / 180)) + size/2, (float)(currentAirport.locationCenter.y + circleRadius * Math.sin(circleAngle * Math.PI / 180)) + size/2);
       break;
 
       case "waitingToTakeOff": //runway

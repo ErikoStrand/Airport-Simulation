@@ -47,7 +47,7 @@ public class Simulation {
         int edgeOffset = 50;
         boolean running = true;
         double start = System.nanoTime() /10000000;
-        int noofAirports = 10;
+        int noofAirports = 2;
         int noofAeroplanes = 100;
 
         // Create and set up the window
@@ -80,7 +80,7 @@ public class Simulation {
 
         //creates all airports and adds to array list
         for (int air = 0; air < noofAirports; air++) {
-            airports.add(new Airport(4, 2, air, generateLocation(airports, width, height, edgeOffset, noofAirports)));
+            airports.add(new Airport(1, 1, air, generateLocation(airports, width, height, edgeOffset, noofAirports)));
         }
         //creates all aeroplanes and adds to array list
         for (int aer = 0; aer < noofAeroplanes; aer++) {
