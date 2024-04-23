@@ -69,7 +69,18 @@ public class Airport {
         planesWaitingGate.removeFirst();
       }
     }
-  
+    public int indexOfTakeOff(Aeroplane plane) {
+      int index = 0;
+      for (Aeroplane p : planesWaitingRunway) {
+          if (p.state == "waitingToTakeOff") {
+              if (p.equals(plane)) {
+                  return index;
+              }
+              index++;
+          }
+      }
+      return -1; // Return -1 if the plane is not found or not waiting to take off
+  }
     public Object[] isRunwayAvailable(Aeroplane aeroplane) {
       for (Runway runway : runways) {
         if (!runway.isOccupied()) {

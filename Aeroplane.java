@@ -170,7 +170,7 @@ public class Aeroplane {
       break;
 
       case "waitingToTakeOff": //runway
-        location = new Point2D.Float(currentAirport.runwayQueueLocation.x - size, currentAirport.runwayQueueLocation.y - size/2 + (size * currentAirport.planesWaitingRunway.indexOf(this)));
+        location = new Point2D.Float(currentAirport.runwayQueueLocation.x - size, currentAirport.runwayQueueLocation.y - size/2 + (size * currentAirport.indexOfTakeOff(this)));
 
 
       break;
