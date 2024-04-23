@@ -52,8 +52,10 @@ public class Airport {
 
 
     public void moveRunwayQueue(Runway runway) {
+      //checks so the list is not empty.
       if (planesWaitingRunway.size() > 0) {
         runway.setOccupied(true);
+        //sätter runwayen på planet så den är samma som det planet som nyss stack. så det liksom blir att man byter runwayen mellan varandra.
         planesWaitingRunway.getFirst().runway = runway;
         if (planesWaitingRunway.getFirst().state == "waitingToLand") {planesWaitingRunway.getFirst().state = "landing"; planesWaitingRunway.getFirst().setLandingTime();}
         if (planesWaitingRunway.getFirst().state == "waitingToTakeOff") {planesWaitingRunway.getFirst().state = "takingOff"; planesWaitingRunway.getFirst().setTakeOffTime();}
@@ -62,6 +64,7 @@ public class Airport {
     }
 
     public void moveGateQueue(Gate gate) {
+      //same thing as the runway one.
       if (planesWaitingGate.size() > 0) {
         gate.setOccupied(true);
         planesWaitingGate.getFirst().gate = gate;
@@ -73,9 +76,11 @@ public class Airport {
       int index = 0;
       for (Aeroplane p : planesWaitingRunway) {
           if (p.state == "waitingToTakeOff") {
+            //found the index of the plane
               if (p.equals(plane)) {
                   return index;
               }
+              //not correct plane so add ++ to index.
               index++;
           }
       }
